@@ -18,3 +18,11 @@ class AlgoGen(object):
         """
         build a genetic algorithm to solve problem using a population of size population_size 
         and a probability of mutation of mutation_probability
+
+        :param problem:(Problem object) the problem to solve
+        :param population_size:(int) the size of the population (must be even)
+        :param mutation_probability:(float) the mutation probability
+        :param crossover_rate: the crossover rate
+        :UC: population_size must be even and mutation_probability must be >= 0 and <1
+
+        """

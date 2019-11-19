@@ -7,4 +7,5 @@ Algorithmes génétiques
    :maxdepth: 1
 
    journal
+   algogen
 
