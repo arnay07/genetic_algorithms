@@ -6,7 +6,7 @@
 
 class Individual_Interface(object):
 
-    def __init__(self, gene_length):
+    def __init__(self, size):
         """
         an Individual in genetic algorithm problem
         the value (or genome) of an individual is a sequence (e.g string or list) of a fixed size
@@ -17,8 +17,8 @@ class Individual_Interface(object):
         """
 
         self.__fitness = 0
-        self.__gene_length = gene_length
-        self.__genome = []
+        self.__size = size
+        self.__value = []
 
 
 
@@ -32,8 +32,8 @@ class Individual_Interface(object):
 
         """
 
-        individual_copy = Individual_Interface(self.__gene_length)
-        individual_copy.__genome = self.get_value()[:]
+        individual_copy = Individual_Interface(self.get_size())
+        individual_copy.set_value(self.get_value()[:])
 
         return individual_copy
 
@@ -46,9 +46,9 @@ class Individual_Interface(object):
         :param other:(Individual) another individual
 
         """
-        coupe_point = randint(0, self.get_size()-1)
+        coupe_point = randint(1, self.get_size()-1)
         i=0
-        while(i<=coupe_point):
+        while(i<coupe_point):
             self.get_value[i], other.get_value[i] = other.get_value[i], self.get_value[i]
             i+=1
         return (self, other)
@@ -58,7 +58,7 @@ class Individual_Interface(object):
         return the list of genes
 
         """
-        return self.__genome
+        return self.__value
 
 
     def evaluate(problem):
@@ -89,7 +89,7 @@ class Individual_Interface(object):
 
         """
 
-        return self.__gene_length
+        return self.__size
 
 
     def init_value(self):
@@ -100,11 +100,13 @@ class Individual_Interface(object):
         :rtype: list
 
         """
-        for (i in range(self.__gene_length)):
+        score = 0
+        for (i in range(self.get_size())):
             gene = randint(0,100)%2
-            self.__genome[i] = gene
+            self.get_value()[i] = gene
             if gene==1:
-                self.__fitness += 1
+                score += 1
+                self.set_score(score)
 
 
     def mutate(self, probability):
@@ -146,7 +148,7 @@ class Individual_Interface(object):
 
         """
 
-        self.__genome = new_value
+        self.__value = new_value
 
 
 
