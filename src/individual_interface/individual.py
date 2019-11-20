@@ -13,7 +13,7 @@ class Individual_Interface(object):
         an individual has a fitness score
 
         :param gene_length:(int) the length of the sequence of the individual
-        
+
         """
 
         self.__fitness = 0
@@ -21,8 +21,8 @@ class Individual_Interface(object):
         self.__genome = []
 
 
-        
-    
+
+
     def copy(self):
         """
         build a copy of self, the genome is a copy of self’s genome
@@ -40,14 +40,14 @@ class Individual_Interface(object):
 
     def cross_with(self, other):
         """
-        perform a 1 point crossover between self and other, 
+        perform a 1 point crossover between self and other,
         two new built individuals are returned
 
         :param other:(Individual) another individual
 
         """
         self.get_value[0], other.get_value[0] = other.get_value[0], self.get_value[0]
-        
+
         return (self, other)
 
     def get_value(self):
@@ -63,7 +63,7 @@ class Individual_Interface(object):
         set the fitness score with the fitness computed by problem for self
 
         :param problem:(Problem) the problem
-        
+
         """
 
         pass
@@ -106,7 +106,7 @@ class Individual_Interface(object):
 
     def mutate(self, probability):
         """
-        apply mutation operation to self : each element of the genome 
+        apply mutation operation to self : each element of the genome
         sequence is randomly changed with given probabiliy
 
         side effect: self's genome is modified
@@ -118,7 +118,7 @@ class Individual_Interface(object):
 
         for i in range(self.get_size()):
             value = random()
-            if value > probability:
+            if value < probability:
                 self.get_value[i] = self.get_value[i] ^ 1
 
 
@@ -131,7 +131,7 @@ class Individual_Interface(object):
         :param new_score:(int) the new fitness score
 
         """
-        self.__fitness = new_score 
+        self.__fitness = new_score
 
 
 
