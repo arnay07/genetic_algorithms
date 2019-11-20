@@ -50,7 +50,7 @@ class Individual_Interface(object):
         i=0
         while(i<=coupe_point):
             self.get_value[i], other.get_value[i] = other.get_value[i], self.get_value[i]
-
+            i+=1
         return (self, other)
 
     def get_value(self):
