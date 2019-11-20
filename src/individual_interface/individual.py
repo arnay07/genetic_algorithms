@@ -49,7 +49,7 @@ class Individual_Interface(object):
         coupe_point = randint(1, self.get_size()-1)
         i=0
         while(i<coupe_point):
-            self.get_value[i], other.get_value[i] = other.get_value[i], self.get_value[i]
+            self.get_value()[i], other.get_value()[i] = other.get_value()[i], self.get_value()[i]
             i+=1
         return (self, other)
 
@@ -124,7 +124,7 @@ class Individual_Interface(object):
         for i in range(self.get_size()):
             value = random()
             if value < probability:
-                self.get_value[i] = self.get_value[i] ^ 1
+                self.get_value()[i] = self.get_value()[i] ^ 1
 
 
 
