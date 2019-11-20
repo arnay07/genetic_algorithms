@@ -19,7 +19,7 @@ doc: author
 	$(SPHINXBUILD) -c $(CONFIGPATH) -b html $(SOURCEDOC) $(DOC)
 
 archive: clean
-	zip -r $(PROJECT).zip .
+	zip -r $(PROJECT).zip . -x \*.md \.git\*
 
 
 author:
