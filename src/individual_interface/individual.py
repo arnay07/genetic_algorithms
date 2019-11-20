@@ -46,7 +46,10 @@ class Individual_Interface(object):
         :param other:(Individual) another individual
 
         """
-        self.get_value[0], other.get_value[0] = other.get_value[0], self.get_value[0]
+        coupe_point = randint(0, self.get_size()-1)
+        i=0
+        while(i<=coupe_point):
+            self.get_value[i], other.get_value[i] = other.get_value[i], self.get_value[i]
 
         return (self, other)
 
