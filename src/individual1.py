@@ -4,7 +4,7 @@
 
 
 
-class Individual_Interface(object):
+class Individual1(object):
 
     def __init__(self, size):
         """
@@ -151,9 +151,16 @@ class Individual_Interface(object):
         self.__value = new_value
 
 
+    def calculate_N(self):
+        """
+        calculate the value of the binary value in decimal value
 
-
-
+        """
+        res = 0
+        for i in range(self.get_size()): 
+           res += self.get_value()[i]*(2**self.get_size()-(i+1))
+        
+        return res
 
 
 
