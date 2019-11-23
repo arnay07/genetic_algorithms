@@ -12,7 +12,7 @@ class Individual_Interface(object):
         the value (or genome) of an individual is a sequence (e.g string or list) of a fixed size
         an individual has a fitness score
 
-        :param gene_length:(int) the length of the sequence of the individual
+        :param gene_length: (int) the length of the sequence of the individual
 
         """
 
@@ -43,7 +43,7 @@ class Individual_Interface(object):
         perform a 1 point crossover between self and other,
         two new built individuals are returned
 
-        :param other:(Individual) another individual
+        :param other: (Individual) another individual
 
         """
         coupe_point = randint(1, self.get_size()-1)
@@ -65,7 +65,7 @@ class Individual_Interface(object):
         """
         set the fitness score with the fitness computed by problem for self
 
-        :param problem:(Problem) the problem
+        :param problem: (Problem) the problem
 
         """
 
@@ -101,7 +101,7 @@ class Individual_Interface(object):
 
         """
         score = 0
-        for (i in range(self.get_size())):
+        for i in range(self.get_size()):
             gene = randint(0,100)%2
             self.get_value()[i] = gene
             if gene==1:
@@ -115,7 +115,7 @@ class Individual_Interface(object):
         sequence is randomly changed with given probabiliy
 
         side effect: self's genome is modified
-        :param probability:(float) the probability of mutation for every gene
+        :param probability: (float) the probability of mutation for every gene
         :UC: probability in [0,1[
 
         """
@@ -133,7 +133,7 @@ class Individual_Interface(object):
         """
         change the fitness score of self
 
-        :param new_score:(int) the new fitness score
+        :param new_score: (int) the new fitness score
 
         """
         self.__fitness = new_score
@@ -144,7 +144,7 @@ class Individual_Interface(object):
         """
         change the genome value of self
 
-        :param new_value:(list) the new genome value
+        :param new_value: (list) the new genome value
 
         """
 

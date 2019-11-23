@@ -12,3 +12,4 @@ Objectifs
 
 bilan
 -----
+On a créé la classe Individual_Interface avec les méthodes communes aux individus. La classe AlgoGen sera à faire dans les semaines suivantes
