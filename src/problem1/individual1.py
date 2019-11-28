@@ -1,27 +1,35 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+"""
+:mod:`individual1` module
 
+:author: Arnaud Kaderi, Elhadj Ibrahima BAH, Aboubakar Siriki Diakité
+
+
+:date: 2019, November
+:last revision: 25/11/2019
+
+"""
+
+
+from problem1 import *
 
 
 class Individual1(object):
-
     def __init__(self, size):
         """
         an Individual in genetic algorithm problem
         the value (or genome) of an individual is a sequence (e.g string or list) of a fixed size
         an individual has a fitness score
 
-        :param gene_length: (int) the length of the sequence of the individual
+        :param size: (int) the length of the sequence of the individual
 
         """
 
         self.__fitness = 0
         self.__size = size
         self.__value = []
-
-
-
 
     def copy(self):
         """
@@ -32,11 +40,10 @@ class Individual1(object):
 
         """
 
-        individual_copy = Individual_Interface(self.get_size())
+        individual_copy = Individual1(self.get_size())
         individual_copy.set_value(self.get_value()[:])
 
         return individual_copy
-
 
     def cross_with(self, other):
         """
@@ -60,17 +67,14 @@ class Individual1(object):
         """
         return self.__value
 
-
-    def evaluate(problem):
+    def evaluate(self, problem):
         """
         set the fitness score with the fitness computed by problem for self
 
         :param problem: (Problem) the problem
 
         """
-
-        pass
-
+        self.set_score(problem.evaluate_fitness(self))
 
     def get_score(self):
         """
@@ -91,7 +95,6 @@ class Individual1(object):
 
         return self.__size
 
-
     def init_value(self):
         """
         randomly initialize the genome value of self
@@ -107,7 +110,6 @@ class Individual1(object):
             if gene==1:
                 score += 1
                 self.set_score(score)
-
 
     def mutate(self, probability):
         """
@@ -126,9 +128,6 @@ class Individual1(object):
             if value < probability:
                 self.get_value()[i] = self.get_value()[i] ^ 1
 
-
-
-
     def set_score(self, new_score):
         """
         change the fitness score of self
@@ -137,8 +136,6 @@ class Individual1(object):
 
         """
         self.__fitness = new_score
-
-
 
     def set_value(self, new_value):
         """
@@ -150,17 +147,24 @@ class Individual1(object):
 
         self.__value = new_value
 
-
     def calculate_N(self):
         """
         calculate the value of the binary value in decimal value
 
         """
         res = 0
-        for i in range(self.get_size()): 
+        for i in range(self.get_size()):
            res += self.get_value()[i]*(2**self.get_size()-(i+1))
-        
         return res
+
+def main():
+    """
+    main program to run on the population
+    given to a problem
+
+    """
+    global POPULATION_SIZE
+    global CROSSOVER_RATE
 
 
 
