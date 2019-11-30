@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-:mod:`problem1` module
+:mod:`problem` module
 
 :author: Arnaud Kaderi, Elhadj Ibrahima BAH, Aboubakar Siriki Diakité
 
@@ -13,17 +13,17 @@
 """
 
 from random import *
-from individual1 import *
+from individual import *
 import math
 import operator
+import sys
 
-class Problem1():
+class Problem():
     def __init__(self, x_min, x_max):
         """
         Build a problem
 
         """
-
         self.__x_min = x_min
         self.__x_max = x_max
 
@@ -37,13 +37,14 @@ class Problem1():
         :rtype: an Individual object
         :return: the best fitted individual of population.
         """
-        max = 0
-        for individu in population:
-            fitness = self.evaluate_fitness(individu)
+        best = population[0]
+        max = best.get_score()
+        for individu in population[1:]:
+            fitness = individu.get_score()
             if fitness > max:
-                res = individu
+                best = individu
                 max = fitness
-        return res
+        return best
 
     def get_min(self):
         """
@@ -64,7 +65,7 @@ class Problem1():
         :rtype: an Individual object.
         :return: a randomly generated individual for this problem.
         """
-        individu = Individual1(size)
+        individu = Individual(size)
         individu.init_value()
 
         return individu
@@ -83,8 +84,8 @@ class Problem1():
 
         n_max = 2**individual.get_size() - 1
         x = self.get_min()+ individual.calculate_N()*\
-                ((self.get_max()-self.get_min())//n_max)
-        return x**2 * math.sin(x) * math.cos(x)
+                ((self.get_max()-self.get_min())/n_max)
+        return (x, x**2 * math.sin(x) * math.cos(x))
 
     def sort_population(self,population):
         """
@@ -95,18 +96,9 @@ class Problem1():
         side effect: population is modified by this method.
 
         :param population: (list(Individual)) - the list of individuals to sort.
-        """
-        dict_fitnesses = {}
-        fitnesses = []
-        for individu in population:
-            fitness = self.evaluate_fitness(individu)
-            dict_fitnesses[individu] = fitness
-
-        sorted_fitness = sorted(dict_fitnesses.items(), key=\
-                operator.itemgetter(1))
-
-        for i in range(len(population)):
-            population[i] = sorted_fitness[i][0]
+        """        
+        population.sort(key = lambda individual: individual.get_score())
+        
 
     def tournament(self,first,second):
         """
@@ -116,9 +108,78 @@ class Problem1():
         :rtype: Individual object
         :return: the winner of the tournament
         """
-        first_fitness = self.evaluate_fitness(first)
-        second_fitness = self.evaluate_fitness(second)
-        if first_fitness > second_fitness:
+        if first.get_score() > second.get_score():
             return first
         else:
             return second
+
+
+
+def main():
+    """
+    define the main method that the problem will be resolved
+    """
+    problem = Problem(15,17)
+    individus = [Individual(8) for i in range(20)]
+    for individu in individus:
+        individu.evaluate(problem)
+        print("{} {}".format(individu, individu.get_score()))
+    print()
+    print()
+    for i in range(20):
+        next_gen1 = []
+        next_gen2 = []
+        shuffle(individus)
+        j=0
+        while(j<19):
+            individu1, individu2 = individus[j], individus[j+1]
+            best_individu_tournoi = problem.tournament(individu1, individu2)
+            next_gen1.append(best_individu_tournoi)
+            cross1, cross2 = individu1.cross_with(individu2)
+            best_individu_cross = problem.tournament(cross1, cross2)
+            next_gen2.append(best_individu_cross)
+            j+=2
+        next_gen = next_gen1+next_gen2
+        for individu in next_gen:
+            individu.mutate(0.1)
+            individu.evaluate(problem)
+            print("{} {}".format(individu, individu.get_score()))
+        print()
+        problem.sort_population(next_gen)
+        for individu in next_gen:
+            print("{} {}".format(individu, individu.get_score()))
+        print()
+        meilleurs = next_gen[len(next_gen)-5:]
+        next_gen = next_gen[5:]
+        individus = next_gen+meilleurs
+        for individu in individus:
+            print("{} {}".format(individu, individu.get_score()))
+        print()
+        print()
+    res = problem.best_individual(individus)
+    print("{} {}".format(res, problem.evaluate_fitness(res)[0]))
+    return res
+    
+
+if __name__=='__main__':
+    main()
+#    problem = Problem(13,18)
+#    population = Population(10, 8)
+#    individus = population.get_population()
+#    for individu in individus:
+#        individu.evaluate(problem)
+#        print("{} {}".format(individu, individu.get_score()))
+#    print()    
+#    problem.sort_population(individus)
+#    for individu in individus:
+#        print("{} {}".format(individu, individu.get_score()))
+#   
+        
+#    
+#    
+    
+    
+    
+    
+    
+

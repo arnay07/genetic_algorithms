@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-:mod:`individual1` module
+:mod:`individual` module
 
 :author: Arnaud Kaderi, Elhadj Ibrahima BAH, Aboubakar Siriki Diakité
 
@@ -13,10 +13,10 @@
 """
 
 
-from problem1 import *
+from problem import *
+from random import *
 
-
-class Individual1(object):
+class Individual(object):
     def __init__(self, size):
         """
         an Individual in genetic algorithm problem
@@ -26,10 +26,9 @@ class Individual1(object):
         :param size: (int) the length of the sequence of the individual
 
         """
-
         self.__fitness = 0
         self.__size = size
-        self.__value = []
+        self.__value = self.init_value()
 
     def copy(self):
         """
@@ -39,10 +38,8 @@ class Individual1(object):
         :rtype: an Individual object
 
         """
-
-        individual_copy = Individual1(self.get_size())
+        individual_copy = Individual(self.get_size())
         individual_copy.set_value(self.get_value()[:])
-
         return individual_copy
 
     def cross_with(self, other):
@@ -54,11 +51,13 @@ class Individual1(object):
 
         """
         coupe_point = randint(1, self.get_size()-1)
+        individu1 = self.copy()
+        individu2 = other.copy()
         i=0
         while(i<coupe_point):
-            self.get_value()[i], other.get_value()[i] = other.get_value()[i], self.get_value()[i]
+            individu1.get_value()[i], individu2.get_value()[i] = individu2.get_value()[i], individu1.get_value()[i]
             i+=1
-        return (self, other)
+        return (individu1, individu2)
 
     def get_value(self):
         """
@@ -74,7 +73,7 @@ class Individual1(object):
         :param problem: (Problem) the problem
 
         """
-        self.set_score(problem.evaluate_fitness(self))
+        self.set_score(problem.evaluate_fitness(self)[1])
 
     def get_score(self):
         """
@@ -83,16 +82,13 @@ class Individual1(object):
         :return: the fitness score
         :rtype: int
         """
-
         return self.__fitness
 
     def get_size(self):
         """
         :return: the size of self's genome
         :rtype: int
-
         """
-
         return self.__size
 
     def init_value(self):
@@ -101,15 +97,12 @@ class Individual1(object):
 
         :return: the genome of self
         :rtype: list
-
         """
-        score = 0
+        genome = []
         for i in range(self.get_size()):
-            gene = randint(0,100)%2
-            self.get_value()[i] = gene
-            if gene==1:
-                score += 1
-                self.set_score(score)
+            gene = randint(0,1000)%2
+            genome.append(gene)
+        return genome
 
     def mutate(self, probability):
         """
@@ -124,8 +117,7 @@ class Individual1(object):
         assert 0 <= probability < 1, 'the probability must be between 0 and 1 excluded'
 
         for i in range(self.get_size()):
-            value = random()
-            if value < probability:
+            if random() < probability:
                 self.get_value()[i] = self.get_value()[i] ^ 1
 
     def set_score(self, new_score):
@@ -144,7 +136,6 @@ class Individual1(object):
         :param new_value: (list) the new genome value
 
         """
-
         self.__value = new_value
 
     def calculate_N(self):
@@ -154,19 +145,49 @@ class Individual1(object):
         """
         res = 0
         for i in range(self.get_size()):
-           res += self.get_value()[i]*(2**self.get_size()-(i+1))
+           res += self.get_value()[i]*(2**(self.get_size()-(i+1)))
         return res
 
-def main():
-    """
-    main program to run on the population
-    given to a problem
 
-    """
-    global POPULATION_SIZE
-    global CROSSOVER_RATE
+    def __repr__(self):
+        """
+        represent the way individuals have to be written
+        """
+        return '{}'.format(self.get_value())
+
+#def main():
+#    """
+#    main program to run on the population
+#    given to a problem
+#
+#    """
+#    global POPULATION_SIZE
+#    global CROSSOVER_RATE
 
 
 
+if __name__=='__main__':
+    problem = Problem(13,18)
+    individu = Individual(8)
+    individu.evaluate(problem)
+    individu2 = Individual(8)
+    individu2.evaluate(problem)
+    population = [individu, individu2]
+    for i in population:   
+        print("{} {}".format(i, i.get_score()))    
+    print()
+    individu3, individu4 = individu.cross_with(individu2)
+    individu3.evaluate(problem)
+    print("{} {}".format(individu3, individu3.get_score())) 
+    individu4.evaluate(problem)
+    print("{} {}".format(individu4, individu4.get_score())) 
+    print()
+    population.append(individu3)
+    population.append(individu4)
+    for ind in population:   
+        print("{} {}".format(ind, ind.get_score()))    
+   
+#    
 
+    
 

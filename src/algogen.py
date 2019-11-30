@@ -11,6 +11,9 @@
 """
 
 
+import sys
+
+
 class AlgoGen(object):
     def __init__(self, problem, population_size, crossover_rate, mutation_probability):
         """
@@ -54,3 +57,33 @@ class AlgoGen(object):
         """
 
         return self.__mutation_probability
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
