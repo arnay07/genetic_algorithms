@@ -17,7 +17,7 @@ import math
 
 POPULATION_SIZE = 600
 LETTERS = 'abcdefghijklmnopqrstuvwxyz '
-TARGET = "ceci est le secret a retrouver ce que nous voyons"
+TARGET = "ceci est le secret a retrouver"
 
 class Individual(object):
     def __init__(self, size):
@@ -122,6 +122,38 @@ class Individual(object):
         individu1.set_value(genome_list1)
         individu2.set_value(genome_list2)
         return (individu1, individu2)
+    
+    def mate(self, individu2):
+        """
+        """
+        
+        child_chromosome = []
+        for gp1, gp2 in zip(self.get_value(), individu2.get_value()):
+
+            # random probability
+            prob = random.random()
+
+            # if prob is less than 0.45, insert gene
+            # from parent 1
+            if prob < 0.45:
+                child_chromosome.append(gp1)
+
+            # if prob is between 0.45 and 0.90, insert
+            # gene from parent 2
+            elif prob < 0.90:
+                child_chromosome.append(gp2)
+
+            # otherwise insert random gene(mutate),
+            # for maintaining diversity
+            else:
+                child_chromosome.append(choice(LETTERS))
+
+        # create new Individual(offspring) using
+        # generated chromosome for offspring
+        individu = Individual(self.get_size)
+        individu.set_value(child_chromosome)
+        return individu
+        
 
 
     def copy(self):
@@ -196,8 +228,8 @@ def main():
     Individual.sort_population(individus)
     i=0
     found = False
-    while (i<600): #and not found):
-        s = 5
+    while (i<40): #and not found):
+        s = 10
         next_gen1 = []
         next_gen1 += individus[:s]
         s1 = POPULATION_SIZE-s
@@ -207,13 +239,15 @@ def main():
         for j in range(0,s1-1,2):
             individu1, individu2 = individus_a_considerer[j%s],\
             individus_a_considerer[(j+1)%s]
-            best_individu_tournoi = individu1.tournament(individu2)
-            next_gen2.append(best_individu_tournoi)
-            cross1, cross2 = individu1.cross_with(individu2)
-            cross1.evaluate()
-            cross2.evaluate()
-            best_individu_cross = cross1.tournament(cross2)
-            next_gen2.append(best_individu_cross)
+#            best_individu_tournoi = individu1.tournament(individu2)
+#            next_gen2.append(best_individu_tournoi)
+#            cross1, cross2 = individu1.cross_with(individu2)
+#            cross1.evaluate()
+#            cross2.evaluate()
+#            best_individu_cross = cross1.tournament(cross2)
+#            next_gen2.append(best_individu_cross)
+            next_gen.append(individu1.mate(individu2))
+            
         for individu in next_gen2:
             individu.mutate(0.1)
             individu.evaluate()

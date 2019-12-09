@@ -12,10 +12,11 @@
 
 
 import sys
+from random import *
 
 
 class AlgoGen(object):
-    def __init__(self, problem, population_size, crossover_rate, mutation_probability):
+    def __init__(self, problem, individual_size, population_size, crossover_rate, mutation_probability):
         """
         build a genetic algorithm to solve problem using a population of size population_size
         and a probability of mutation of mutation_probability
@@ -31,6 +32,7 @@ class AlgoGen(object):
         self.__population_size = population_size
         self.__crossover_rate = crossover_rate
         self.__mutation_probability = mutation_probability
+        self.__individual_size = individual_size
 
     def get_problem(self):
         """
@@ -57,16 +59,24 @@ class AlgoGen(object):
         """
         return self.__mutation_probability
     
+    def get_individual_size(self):
+        """
+        return the mutation probability
+        """
+        return self.__individual_size
+    
+    
     def action_on_population(self):
         """
         """
         
         
         
-#        problem = Problem(15,17)
-        individus = [problem.create_individual(8) for i in range(self.get_population_size())]
+        problem = self.get_problem()
+
+        individus = [problem.create_individual(self.get_individual_size()) for i in range(self.get_population_size())]
         for individu in individus:
-        print("{} {}".format(individu, individu.get_score()))
+            print("{} {}".format(individu, individu.get_score()))
         print()
         print()
         for i in range(self.get_crossover_rate()):

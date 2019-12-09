@@ -123,11 +123,12 @@ class Problem():
         step = 0
         fieldline = 1
         nb_used = 1
-        while (1 <= fieldline <field.get_height() and (1, 1) <=individual.get_position()\
-               <=(field.get_height(), field.get_width()) and \
+        while (1 <= fieldline < field.get_height() and (1, 1) <=individual.get_position()\
+               <(field.get_height(), field.get_width()) and \
                individual.get_state()!=IndividualState.monster\
                and individual.get_state()!=IndividualState.blocked \
                    and individual.get_state()!= IndividualState.alive):
+            
             score = self.get_motif(individual)
             move = individual.get_value()[score]
             x,y = individual.get_position()

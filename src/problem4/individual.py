@@ -186,7 +186,7 @@ class Individual(object):
         """
         res = 0
         for i in range(self.get_size()):
-           res += self.get_value()[i]*(2**(self.get_size()-(i+1)))
+            res += self.get_value()[i]*(2**(self.get_size()-(i+1)))
         return res
 
 
@@ -197,6 +197,6 @@ class Individual(object):
         return '{}'.format("".join(self.get_value()))
     
 if __name__=='__main__':
-    individu = Individual()
+    individu = Individual(2,2)
     print(individu)
     
