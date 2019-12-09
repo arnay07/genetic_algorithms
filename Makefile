@@ -11,7 +11,7 @@ DOC=doc
 
 clean:
 	rm -f *~ */*~
-	rm -rf __pycache__ src/__pycache__
+	rm -rf __pycache__ src/__pycache__ src/problem*/__pycache__ 
 	rm -rf $(DOC)
 	rm -f $(PROJECT).zip
 

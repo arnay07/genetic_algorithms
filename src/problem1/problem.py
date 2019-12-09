@@ -66,8 +66,7 @@ class Problem():
         :return: a randomly generated individual for this problem.
         """
         individu = Individual(size)
-        individu.init_value()
-
+        individu.evaluate(self)
         return individu
 
     def evaluate_fitness(self,individual):
@@ -96,9 +95,9 @@ class Problem():
         side effect: population is modified by this method.
 
         :param population: (list(Individual)) - the list of individuals to sort.
-        """        
+        """
         population.sort(key = lambda individual: individual.get_score())
-        
+
 
     def tournament(self,first,second):
         """
@@ -120,9 +119,8 @@ def main():
     define the main method that the problem will be resolved
     """
     problem = Problem(15,17)
-    individus = [Individual(8) for i in range(20)]
+    individus = [problem.create_individual(8) for i in range(100)]
     for individu in individus:
-        individu.evaluate(problem)
         print("{} {}".format(individu, individu.get_score()))
     print()
     print()
@@ -131,11 +129,13 @@ def main():
         next_gen2 = []
         shuffle(individus)
         j=0
-        while(j<19):
+        while(j<99):
             individu1, individu2 = individus[j], individus[j+1]
             best_individu_tournoi = problem.tournament(individu1, individu2)
             next_gen1.append(best_individu_tournoi)
             cross1, cross2 = individu1.cross_with(individu2)
+            cross1.evaluate(problem)
+            cross2.evaluate(problem)
             best_individu_cross = problem.tournament(cross1, cross2)
             next_gen2.append(best_individu_cross)
             j+=2
@@ -149,8 +149,8 @@ def main():
         for individu in next_gen:
             print("{} {}".format(individu, individu.get_score()))
         print()
-        meilleurs = next_gen[len(next_gen)-5:]
-        next_gen = next_gen[5:]
+        meilleurs = next_gen[len(next_gen)-5:][:]
+        next_gen = next_gen[5:][:]
         individus = next_gen+meilleurs
         for individu in individus:
             print("{} {}".format(individu, individu.get_score()))
@@ -159,7 +159,7 @@ def main():
     res = problem.best_individual(individus)
     print("{} {}".format(res, problem.evaluate_fitness(res)[0]))
     return res
-    
+
 
 if __name__=='__main__':
     main()
@@ -169,17 +169,17 @@ if __name__=='__main__':
 #    for individu in individus:
 #        individu.evaluate(problem)
 #        print("{} {}".format(individu, individu.get_score()))
-#    print()    
+#    print()
 #    problem.sort_population(individus)
 #    for individu in individus:
 #        print("{} {}".format(individu, individu.get_score()))
-#   
-        
-#    
-#    
-    
-    
-    
-    
-    
+#
+
+#
+#
+
+
+
+
+
 
