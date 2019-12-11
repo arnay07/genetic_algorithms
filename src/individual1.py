@@ -2,44 +2,22 @@
 # -*- coding: utf-8 -*-
 
 """
-:mod:`individual` module
+:mod:`individual1` module
 
 :author: Arnaud Kaderi, Elhadj Ibrahima BAH, Aboubakar Siriki Diakité
 
 
 :date: 2019, November
-:last revision: 08/12/2019
+:last revision: 25/11/2019
 
 """
 
-from enum import Enum
-from problem import *
+
+from problem1 import *
 from random import *
 
-DIRECTIONS = ['U','D','L','R']
-
-
-
-class IndividualState(Enum):
-    """
-    A class to define an enumarated type with four values:
-        
-        *``success``
-        *``blocked``
-        *``monster``
-        *``alive``
-        
-    for the four state of the individual state
-    """
-    success = 1
-    blocked = 2
-    monster = 3
-    alive = 4
-    start = 5
-
-
 class Individual(object):
-    def __init__(self, y, x):
+    def __init__(self, size):
         """
         an Individual in genetic algorithm problem
         the value (or genome) of an individual is a sequence (e.g string or list) of a fixed size
@@ -49,22 +27,8 @@ class Individual(object):
 
         """
         self.__fitness = 0
-        self.__position = (y,x)
+        self.__size = size
         self.__value = self.init_value()
-        self.__state = IndividualState.start
-        
-    def get_position(self):
-        return self.__position
-    
-    def set_position(self, x,y):
-        self.__position = (x,y)
-    
-    def get_state(self):
-        return self.__state
-    
-    def set_state(self, state):
-        self.__state = state
-        
 
     def copy(self):
         """
@@ -74,7 +38,7 @@ class Individual(object):
         :rtype: an Individual object
 
         """
-        individual_copy = Individual(self.get_position()[0], self.get_position()[1])
+        individual_copy = Individual(self.get_size())
         individual_copy.set_value(self.get_value()[:])
         return individual_copy
 
@@ -86,7 +50,7 @@ class Individual(object):
         :param other: (Individual) another individual
 
         """
-        coupe_point = randint(1, 242)
+        coupe_point = randint(1, self.get_size()-1)
         individu1 = self.copy()
         individu2 = other.copy()
         genome_list1 = individu1.get_value()[:]
@@ -139,8 +103,8 @@ class Individual(object):
         :rtype: list
         """
         genome = []
-        for i in range(243):
-            gene = choice(DIRECTIONS)
+        for i in range(self.get_size()):
+            gene = randint(0,1000)%2
             genome.append(gene)
         return genome
 
@@ -156,10 +120,9 @@ class Individual(object):
         """
         assert 0 <= probability < 1, 'the probability must be between 0 and 1 excluded'
 
-        for i in range(243):
+        for i in range(self.get_size()):
             if random() < probability:
-                gene = choice(DIRECTIONS)
-                self.get_value()[i] = gene
+                self.get_value()[i] = self.get_value()[i] ^ 1
 
     def set_score(self, new_score):
         """
@@ -186,7 +149,7 @@ class Individual(object):
         """
         res = 0
         for i in range(self.get_size()):
-            res += self.get_value()[i]*(2**(self.get_size()-(i+1)))
+           res += self.get_value()[i]*(2**(self.get_size()-(i+1)))
         return res
 
 
@@ -194,9 +157,41 @@ class Individual(object):
         """
         represent the way individuals have to be written
         """
-        return '{}'.format("".join(self.get_value()))
-    
+        return '{}'.format(self.get_value())
+
+#def main():
+#    """
+#    main program to run on the population
+#    given to a problem
+#
+#    """
+#    global POPULATION_SIZE
+#    global CROSSOVER_RATE
+
+
+
 if __name__=='__main__':
-    individu = Individual(2,2)
-    print(individu)
-    
+    problem = Problem(13,18)
+    individu = Individual(8)
+    individu.evaluate(problem)
+    individu2 = Individual(8)
+    individu2.evaluate(problem)
+    population = [individu, individu2]
+    for i in population:
+        print("{} {}".format(i, i.get_score()))
+    print()
+    individu3, individu4 = individu.cross_with(individu2)
+    individu3.evaluate(problem)
+    print("{} {}".format(individu3, individu3.get_score()))
+    individu4.evaluate(problem)
+    print("{} {}".format(individu4, individu4.get_score()))
+    print()
+    population.append(individu3)
+    population.append(individu4)
+    for ind in population:
+        print("{} {}".format(ind, ind.get_score()))
+
+#
+
+
+

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-:mod:`problem` module
+:mod:`problem1` module
 
 :author: Arnaud Kaderi, Elhadj Ibrahima BAH, Aboubakar Siriki Diakité
 
@@ -13,7 +13,7 @@
 """
 
 from random import *
-from individual import *
+from individual1 import *
 import math
 import operator
 import sys
@@ -85,7 +85,7 @@ class Problem():
         n_max = 2**individual.get_size() - 1
         x = self.get_min()+ individual.calculate_N()*\
                 ((self.get_max()-self.get_min())/n_max)
-        return (x, x**2 * math.sin(x) * math.cos(x))
+        return  x**2 * math.sin(x) * math.cos(x)
 
     def sort_population(self,population):
         """
@@ -125,9 +125,11 @@ def main():
     individual_size = int(sys.argv[2])
     crossover_rate = int(sys.argv[5])
     probability = float(sys.argv[6])
+    problem = Problem(x_min, x_max)
+    population = [problem.create_individual(individual_size) for _ in range(population_size)]
     algo = AlgoGen(Problem(x_min, x_max), individual_size,  population_size, crossover_rate, probability)
-    algo.action_on_population()
-    
+    algo.action_on_population(population)
+
 #    problem = Problem(15,17)
 #    individus = [problem.create_individual(8) for i in range(100)]
 #    for individu in individus:

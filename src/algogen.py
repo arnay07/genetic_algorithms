@@ -12,10 +12,11 @@
 
 
 import sys
+from random import *
 
 
 class AlgoGen(object):
-    def __init__(self, problem, population_size, crossover_rate, mutation_probability):
+    def __init__(self, problem, individual_size, population_size, crossover_rate, mutation_probability):
         """
         build a genetic algorithm to solve problem using a population of size population_size
         and a probability of mutation of mutation_probability
@@ -31,6 +32,7 @@ class AlgoGen(object):
         self.__population_size = population_size
         self.__crossover_rate = crossover_rate
         self.__mutation_probability = mutation_probability
+        self.__individual_size = individual_size
 
     def get_problem(self):
         """
@@ -56,19 +58,19 @@ class AlgoGen(object):
         return the mutation probability
         """
         return self.__mutation_probability
-    
-    def action_on_population(self):
+
+    def get_individual_size(self):
+        """
+        return the mutation probability
+        """
+        return self.__individual_size
+
+
+    def action_on_population(self, individus):
         """
         """
-        
-        
-        
-#        problem = Problem(15,17)
-        individus = [problem.create_individual(8) for i in range(self.get_population_size())]
-        for individu in individus:
-        print("{} {}".format(individu, individu.get_score()))
-        print()
-        print()
+
+        problem = self.get_problem()
         for i in range(self.get_crossover_rate()):
             next_gen1 = []
             next_gen2 = []
@@ -86,51 +88,54 @@ class AlgoGen(object):
                 j+=2
             next_gen = next_gen1+next_gen2
             for individu in next_gen:
-                individu.mutate(0.1)
+                individu.mutate(self.get_mutation_probability())
                 individu.evaluate(problem)
-                print("{} {}".format(individu, individu.get_score()))
-            print()
+            #     print("{} {}".format(individu, individu.get_score()))
+            # print()
             problem.sort_population(next_gen)
-            for individu in next_gen:
-                print("{} {}".format(individu, individu.get_score()))
-            print()
+            print('{} {}\n'.format(next_gen[-1], problem.evaluate_fitness(next_gen[-1])))
+            # for individu in next_gen:
+            #     print("{} {}".format(individu, individu.get_score()))
+            # print()
             meilleurs = next_gen[len(next_gen)-5:][:]
             next_gen = next_gen[5:][:]
             individus = next_gen+meilleurs
-            for individu in individus:
-                print("{} {}".format(individu, individu.get_score()))
-            print()
-            print()
+            # for individu in individus:
+            #     print("{} {}".format(individu, individu.get_score()))
+            # print()
+            # print()
+            
+        
         res = problem.best_individual(individus)
-        print("{} {}".format(res, problem.evaluate_fitness(res)[0]))
+        # print("{} {}\n".format(res, problem.evaluate_fitness(res)))
         return res
 
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

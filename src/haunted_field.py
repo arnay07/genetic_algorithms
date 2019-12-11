@@ -28,6 +28,7 @@ class Haunted_Field(object):
         self.__height = height 
         self.__field = [[EMPTY for _ in range(self.__width+2)] for _ in range(self.__height+2)]
         self.__init_borders()
+    
 
     def __init_borders(self):
         '''
@@ -85,6 +86,7 @@ class Haunted_Field(object):
         '''
         self.__backup_field = copy.deepcopy(self.__field)
         
+        
     def restore_field(self):
         '''
         reset self's field to last 'backup field' (created using self.restore_field()), it is None if no backup had been made
@@ -111,6 +113,22 @@ class Haunted_Field(object):
     
     
 if __name__ == "__main__":    
-    b = Haunted_Field(6,6)
+    b = Haunted_Field(6,6)    
+    b.backup_field()
+    
     b.init_monsters(4)
+    print(b)
+    b.restore_field()
+    print(b)
+    
+    
+    b.backup_field()
+    b.init_monsters(5)
+    print(b)
+    b.restore_field()
+    print(b)
+    
+    b.init_monsters(5)
+    print(b)
+    b.restore_field()
     print(b)
