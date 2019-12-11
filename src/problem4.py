@@ -204,10 +204,10 @@ class Problem():
     
     
     
-    def evaluate_print_field(self, individual, field):
+    def evaluate_print_field(self, individual):
         
         champs_traverses = 0
-        
+        field = self.get_field()
         field.backup_field()
         step = 0
         fieldline = 1
@@ -336,16 +336,15 @@ def main():
     algo = AlgoGen(problem, 243,  population_size, crossover_rate, probability)
     best = algo.action_on_population(population)
     
-    problem.evaluate_print_field(best, field)
+    problem.evaluate_print_field(best)
     
-    champs_traverses = 0
-    for _ in range(20):
-        problem_experience = Problem(largeur, hauteur, nb_monstres)
-        field_experience = problem_experience.get_field()
-        champs_traverses += problem_experience.evaluate_print_field(best, field_experience)
+    # champs_traverses = 0
+    # for _ in range(20):
+    #     problem_experience = Problem(largeur, hauteur, nb_monstres)
+    #     champs_traverses += problem_experience.evaluate_print_field(best)
          
         
-    print(champs_traverses)
+    # print('{} champs traversés parmi les 20'.format(champs_traverses))
     
 
 
